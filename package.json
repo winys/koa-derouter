@@ -1,6 +1,6 @@
 {
   "name": "koa-derouter",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "Koa derouter",
   "main": "derouter.js",
   "repository": {
