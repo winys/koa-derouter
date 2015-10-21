@@ -2,6 +2,15 @@
 
 *Koa derouter, but a router of koa.*
 
+### Version log
+
+##### 0.0.2
+- Fixed static resouce download in IE/Edge.
+- Add params suport.
+
+##### 0.0.1
+- First commit.
+
 ### How to use it
 ```js
     var koa = require('koa'),
