@@ -48,10 +48,10 @@ module.exports = function (uconf){
 		}
 		//检查并合法化url
 		var urls = this.req.url.split("?"),
-			params = urls[0].replace(/(^\/*)|(\/*$)/g, "").split("/"),
+			params = urls[0] ? urls[0].replace(/(^\/*)|(\/*$)/g, "").split("/") : [],
 			controller = params.shift() || conf['default_controller'],
 			action = params.shift() || conf['default_action'],
-			urlparams = urls[1].split("&")
+			urlparams = urls[1] ? urls[1].split("&") : []
 			;
 		
 		//查找Controller
