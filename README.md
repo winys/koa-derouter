@@ -5,7 +5,7 @@
 ### Version log
 
 ##### 0.0.3
-- Fixed except url can not get query params.
+- Fixed special url can not get query params.
 
 ##### 0.0.2
 - Fixed static resouce download in IE/Edge.
