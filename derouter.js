@@ -29,26 +29,28 @@ module.exports = function (uconf){
 	}
 	return function *derouter( next ){
 		//处理特定路由
-		var exception = conf["exception"];
+		var exception = conf["exception"],
+			urls = this.req.url.split("?")
+			;
+			
 		for (var url in exception){
-			if ( exception[url].test(this.req.url) ){
-				this.req.url = url;
+			if ( exception[url].test(urls[0]) ){
+				urls[0] = url;
 				break;
 			}
 		}
 		//处理静态资源
-		if ( conf["resource_reg"].test(this.req.url) ){
-			this.type = mime.lookup(conf["resource_path"]+this.req.url);
+		if ( conf["resource_reg"].test(urls[0]) ){
+			this.type = mime.lookup(conf["resource_path"]+urls[0]);
 			if( this.type === "application/octet-stream" ){
 				//设置为文件下载
 				this.set("Content-Disposition", "attachment");
 			}
-			this.body = yield fs.createReadStream(conf["resource_path"]+this.req.url);
+			this.body = yield fs.createReadStream(conf["resource_path"]+urls[0]);
 			return;
 		}
 		//检查并合法化url
-		var urls = this.req.url.split("?"),
-			params = urls[0] ? urls[0].replace(/(^\/*)|(\/*$)/g, "").split("/") : [],
+		var params = urls[0] ? urls[0].replace(/(^\/*)|(\/*$)/g, "").split("/") : [],
 			controller = params.shift() || conf['default_controller'],
 			action = params.shift() || conf['default_action'],
 			urlparams = urls[1] ? urls[1].split("&") : []
