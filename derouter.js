@@ -20,7 +20,7 @@ function getParams( fn, params ) {
 	paramskeys = paramskeys.split(/\s*,\s*/);
 	
 	return paramskeys.map(function (item) {
-		return params[item];
+		return params[item] || null;
 	});
 }
 module.exports = function (uconf){
@@ -77,7 +77,17 @@ module.exports = function (uconf){
 			this.query = paramsObj;
 			
 			//执行Action
-			yield action.apply(this,paramsObj);
+			if ( typeof action === "function" ){
+				yield action.apply(this,getParams(action,paramsObj));
+			}
+			else if ( typeof action === "object" ){
+				if ( typeof action[this.req.method.toUpperCase()] === "function" ){
+					action = action[this.req.method.toUpperCase()];
+					yield action.apply(this,getParams(action,paramsObj));
+				}
+				else 
+					throw Error("There is no REST API found!")
+			}
 		}
 		else{
 			this.res.stuts = "404";

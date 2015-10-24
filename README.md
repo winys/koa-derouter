@@ -5,6 +5,9 @@
 ### Version log
 
 ##### 0.0.3
+- Support REST API.
+
+##### 0.0.3
 - Fixed special url can not get query params.
 
 ##### 0.0.2
@@ -15,6 +18,9 @@
 - First commit.
 
 ### How to use it
+
+- In app.js
+
 ```js
     var koa = require('koa'),
         koa_gzip = require('koa-gzip'),
@@ -35,4 +41,25 @@
     app.use(derouter);
     
     app.listen(3000);
+```
+
+- In a controller
+
+```js
+    module.exports = {
+        index : function*(id){
+            
+            var a = id;
+            
+            this.body = a;
+        },
+        art : {
+            GET : function *(id){
+                this.body = id;
+            },
+            POST : function *(aid){
+                this.body = toString.call(aid);
+            }
+        }
+    }
 ```
